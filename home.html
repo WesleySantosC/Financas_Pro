@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador Financeiro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+    <!-- Adicione o link para a biblioteca Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+
+<title>Gerenciador Financeiro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+
+<script>
+    var monthlyIncomeInput = document.getElementById("monthlyIncome");
+    var monthlyIncome = 0;
+
+    var expenseData = {
+        labels: ['Despesas'],
+        datasets: [{
+            data: [0],
+            backgroundColor: ['#FF6384'],
+            hoverBackgroundColor: ['#FF6384']
+        }]
+    };
+
+    var ctx = document.getElementById('expensesChart').getContext('2d');
+    var myDoughnutChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: expenseData
+    });
+
+    function addTransaction() {
+        var amount = parseFloat(document.getElementById("amount").value);
+        var type = document.getElementById("type").value;
+
+        if (type === "receita") {
+            monthlyIncome = amount;
+        } else if (type === "despesa") {
+            // Adicione a lógica para calcular as despesas como uma porcentagem da receita
+            var expensePercentage = amount / monthlyIncome * 100;
+
+            // Atualiza os dados do gráfico
+            myDoughnutChart.data.datasets[0].data[0] = expensePercentage.toFixed(2);
+            myDoughnutChart.update();
+        }
+
+        // Limpar o formulário após adicionar a transação
+        document.getElementById("transactionForm").reset();
+    }
+
+    // Adicione um conjunto de dados de exemplo para o gráfico
+    var expenseData = {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+        datasets: [{
+            label: 'Despesas Mensais',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+            data: [500, 300, 700, 400, 600, 800]
+        }]
+    };
+
+    var ctx = document.getElementById('expensesChart').getContext('2d');
+    var myBarChart = new Chart(ctx, {
+        type: 'bar',
+        data: expenseData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    function addTransaction() {
+        var date = document.getElementById("date").value;
+        var amount = document.getElementById("amount").value;
+        var description = document.getElementById("description").value;
+        var type = document.getElementById("type").value;
+        var paymentMethod = document.getElementById("paymentMethod").value;
+
+        // Aqui você pode realizar a lógica para adicionar a transação ao seu sistema
+        console.log("Transação adicionada:", { date, amount, description, type, paymentMethod });
+
+        // Atualizar o gráfico com os novos dados (simulação de dados dinâmicos)
+        updateChart();
+
+        // Limpar o formulário após adicionar a transação
+        document.getElementById("transactionForm").reset();
+    }
+
+    // Atualiza o gráfico com novos dados
+    function updateChart() {
+        // Adicione lógica para obter os dados reais de despesas mensais do seu sistema
+        // Atualize os dados do gráfico e redesenhe
+        myBarChart.data.datasets[0].data = [550, 320, 680, 410, 590, 820];
+        myBarChart.update();
+    }
+
+</script>
+
+</head>
+<body>
+
+<h1>Inserir Transação</h1>
+
+<form id="transactionForm">
+    <label for="date">Data:</label>
+    <input type="date" id="date" name="date" required>
+
+    <label for="amount">Valor:</label>
+    <input type="number" id="amount" name="amount" required>
+
+    <label for="description">Descrição:</label>
+    <input type="text" id="description" name="description" required>
+
+    <label for="type">Tipo:</label>
+    <select id="type" name="type" required>
+        <option value="receita">Receita</option>
+        <option value="despesa">Despesa</option>
+    </select>
+
+    <label for="paymentMethod">Método de Pagamento:</label>
+    <input type="text" id="paymentMethod" name="paymentMethod" required>
+
+    <button type="button" onclick="addTransaction()">Adicionar Transação</button>
+</form>
+
+<form id="transactionForm">
+    <!-- ... (o mesmo formulário anterior) -->
+</form>
+
+<h1>Despesas Mensais</h1>
+<canvas id="expensesChart" width="400" height="200"></canvas>
+
+
+</script>
+
+</body>
+</html>
